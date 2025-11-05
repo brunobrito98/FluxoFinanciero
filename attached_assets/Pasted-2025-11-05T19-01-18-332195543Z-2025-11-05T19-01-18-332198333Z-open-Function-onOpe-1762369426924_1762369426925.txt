@@ -1,0 +1,50 @@
+2025-11-05T19:01:18.332195543Z       },
+2025-11-05T19:01:18.332198333Z       open: [Function: onOpen] {
+2025-11-05T19:01:18.332201123Z         [Symbol(kIsForOnEventAttribute)]: false,
+2025-11-05T19:01:18.332203993Z         [Symbol(kListener)]: [Function: handleWebSocketOpen]
+2025-11-05T19:01:18.332206804Z       }
+2025-11-05T19:01:18.332209624Z     },
+2025-11-05T19:01:18.332213254Z     _eventsCount: 4,
+2025-11-05T19:01:18.332216144Z     _maxListeners: undefined,
+2025-11-05T19:01:18.332218914Z     _binaryType: 'arraybuffer',
+2025-11-05T19:01:18.332221674Z     _closeCode: 1006,
+2025-11-05T19:01:18.332225714Z     _closeFrameReceived: false,
+2025-11-05T19:01:18.332230204Z     _closeFrameSent: false,
+2025-11-05T19:01:18.332234284Z     _closeMessage: Buffer(0) [Uint8Array] [],
+2025-11-05T19:01:18.332238374Z     _closeTimer: null,
+2025-11-05T19:01:18.332242825Z     _errorEmitted: true,
+2025-11-05T19:01:18.332246994Z     _extensions: {},
+2025-11-05T19:01:18.332251295Z     _paused: false,
+2025-11-05T19:01:18.332255295Z     _protocol: '',
+2025-11-05T19:01:18.332258815Z     _readyState: 3,
+2025-11-05T19:01:18.332261585Z     _receiver: null,
+2025-11-05T19:01:18.332264375Z     _sender: null,
+2025-11-05T19:01:18.332267155Z     _socket: null,
+2025-11-05T19:01:18.332271265Z     _bufferedAmount: 0,
+2025-11-05T19:01:18.332276285Z     _isServer: false,
+2025-11-05T19:01:18.332280646Z     _redirects: 0,
+2025-11-05T19:01:18.332285016Z     _autoPong: true,
+2025-11-05T19:01:18.332289226Z     _url: 'wss://dpg-d45pooidbo4c7383erng-a/v2',
+2025-11-05T19:01:18.332293576Z     _req: null,
+2025-11-05T19:01:18.332297706Z     [Symbol(shapeMode)]: false,
+2025-11-05T19:01:18.332301356Z     [Symbol(kCapture)]: false
+2025-11-05T19:01:18.332305126Z   },
+2025-11-05T19:01:18.332308906Z   [Symbol(kType)]: 'error',
+2025-11-05T19:01:18.332313276Z   [Symbol(kError)]: Error: connect ECONNREFUSED 10.205.48.243:443
+2025-11-05T19:01:18.332316996Z       at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1611:16) {
+2025-11-05T19:01:18.332334057Z     errno: -111,
+2025-11-05T19:01:18.332336877Z     code: 'ECONNREFUSED',
+2025-11-05T19:01:18.332339587Z     syscall: 'connect',
+2025-11-05T19:01:18.332341907Z     address: '10.205.48.243',
+2025-11-05T19:01:18.332344437Z     port: 443
+2025-11-05T19:01:18.332346907Z   },
+2025-11-05T19:01:18.332349587Z   [Symbol(kMessage)]: 'connect ECONNREFUSED 10.205.48.243:443'
+2025-11-05T19:01:18.332352288Z }
+2025-11-05T19:01:18.332354437Z 
+2025-11-05T19:01:18.332357078Z Node.js v20.19.5
+2025-11-05T19:01:24.163890557Z ==> Running 'npm run start'
+2025-11-05T19:01:25.172325298Z 
+2025-11-05T19:01:25.172348009Z > rest-express@1.0.0 start
+2025-11-05T19:01:25.172354089Z > NODE_ENV=production node dist/index.js
+2025-11-05T19:01:25.172356709Z 
+2025-11-05T19:01:28.667403867Z 7:01:28 PM [express] serving on port 10000

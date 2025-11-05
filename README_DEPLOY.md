@@ -1,14 +1,20 @@
 # 🚀 Projeto Preparado para Deploy no Render
 
+## 🔥 ATUALIZAÇÃO IMPORTANTE
+
+**Se você teve erro de conexão (ECONNREFUSED), o problema foi corrigido!**
+📄 Veja os detalhes em: `RENDER_DEPLOY_ATUALIZADO.md`
+
 ## ✅ O que foi feito
 
 Seu projeto backend foi completamente preparado para deploy no Render com as seguintes melhorias:
 
 ### 1. **Banco de Dados PostgreSQL**
 - ✅ Substituído armazenamento em memória por PostgreSQL real
-- ✅ Criado `server/db.ts` com conexão ao banco
+- ✅ Criado `server/db.ts` com conexão ao banco usando driver `pg` (compatível com Render)
 - ✅ Atualizado `server/storage.ts` para usar `DatabaseStorage`
 - ✅ Schema do banco aplicado com sucesso
+- ✅ **CORRIGIDO**: Agora usa driver PostgreSQL padrão, compatível com qualquer PostgreSQL
 
 ### 2. **Arquivos de Configuração do Render**
 - ✅ `render.yaml` - Configuração Infrastructure as Code
