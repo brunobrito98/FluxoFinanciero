@@ -1,15 +1,11 @@
-import MetricCard from "@/components/MetricCard";
-import RevenueChart from "@/components/RevenueChart";
 import ClientTable from "@/components/ClientTable";
 import ClientFormDialog from "@/components/ClientFormDialog";
 import { Button } from "@/components/ui/button";
-import { DollarSign, Users, TrendingUp, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useClientManagement } from "@/hooks/useClientManagement";
-import { calculateMonthlyProjections, calculateMRR, calculateARR, formatCurrency } from "@/lib/calculations";
 
-export default function Dashboard() {
+export default function ClientsPage() {
   const {
-    clients,
     isLoading,
     dialogOpen,
     setDialogOpen,
@@ -21,10 +17,6 @@ export default function Dashboard() {
     handleDelete,
     handleCloseDialog,
   } = useClientManagement();
-
-  const totalMRR = calculateMRR(clients);
-  const totalARR = calculateARR(totalMRR);
-  const revenueProjections = calculateMonthlyProjections(clients);
 
   if (isLoading) {
     return (
@@ -38,9 +30,11 @@ export default function Dashboard() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-semibold" data-testid="text-page-title">Dashboard</h1>
+          <h1 className="text-3xl font-semibold" data-testid="text-page-title">
+            Gerenciar Clientes
+          </h1>
           <p className="text-muted-foreground">
-            Visão geral do seu faturamento e clientes
+            Cadastre e gerencie todos os seus clientes
           </p>
         </div>
         <Button onClick={() => setDialogOpen(true)} data-testid="button-add-client">
@@ -48,32 +42,6 @@ export default function Dashboard() {
           Adicionar Cliente
         </Button>
       </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <MetricCard
-          title="Receita Mensal (MRR)"
-          value={formatCurrency(totalMRR)}
-          icon={DollarSign}
-          trend="Baseado em clientes ativos"
-          testId="metric-mrr"
-        />
-        <MetricCard
-          title="Receita Anual (ARR)"
-          value={formatCurrency(totalARR)}
-          icon={TrendingUp}
-          trend="Projeção anual"
-          testId="metric-arr"
-        />
-        <MetricCard
-          title="Clientes Ativos"
-          value={clients.length.toString()}
-          icon={Users}
-          trend={`${clients.length} planos ativos`}
-          testId="metric-clients"
-        />
-      </div>
-
-      <RevenueChart data={revenueProjections} />
 
       <ClientTable
         clients={tableClients}

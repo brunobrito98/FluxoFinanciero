@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -24,6 +25,7 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { cn } from "@/lib/utils";
+import { formatCurrencyInput } from "@/lib/calculations";
 
 const clientFormSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),
@@ -52,16 +54,33 @@ export default function ClientFormDialog({
   const form = useForm<ClientFormValues>({
     resolver: zodResolver(clientFormSchema),
     defaultValues: {
-      name: defaultValues?.name || "",
-      plan: defaultValues?.plan || "",
-      monthlyValue: defaultValues?.monthlyValue || "",
-      renewalDate: defaultValues?.renewalDate || undefined,
+      name: "",
+      plan: "",
+      monthlyValue: "",
+      renewalDate: undefined,
     },
   });
 
+  useEffect(() => {
+    if (open && defaultValues) {
+      form.reset(defaultValues);
+    } else if (!open) {
+      form.reset({
+        name: "",
+        plan: "",
+        monthlyValue: "",
+        renewalDate: undefined,
+      });
+    }
+  }, [open, defaultValues, form]);
+
   const handleSubmit = (data: ClientFormValues) => {
     onSubmit(data);
-    form.reset();
+  };
+
+  const handleCurrencyChange = (value: string, onChange: (value: string) => void) => {
+    const formatted = formatCurrencyInput(value);
+    onChange(formatted);
   };
 
   return (
@@ -117,6 +136,7 @@ export default function ClientFormDialog({
                       {...field}
                       placeholder="R$ 0,00"
                       data-testid="input-value"
+                      onChange={(e) => handleCurrencyChange(e.target.value, field.onChange)}
                     />
                   </FormControl>
                   <FormMessage />
@@ -168,10 +188,7 @@ export default function ClientFormDialog({
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => {
-                  form.reset();
-                  onOpenChange(false);
-                }}
+                onClick={() => onOpenChange(false)}
                 data-testid="button-cancel"
               >
                 Cancelar

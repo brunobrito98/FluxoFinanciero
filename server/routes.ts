@@ -20,13 +20,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   app.patch("/api/clients/:id", async (req, res) => {
-    const { id } = req.params;
-    const client = await storage.updateClient(id, req.body);
-    if (!client) {
-      res.status(404).json({ error: "Client not found" });
-      return;
+    try {
+      const { id } = req.params;
+      const validated = insertClientSchema.partial().parse(req.body);
+      const client = await storage.updateClient(id, validated);
+      if (!client) {
+        res.status(404).json({ error: "Client not found" });
+        return;
+      }
+      res.json(client);
+    } catch (error) {
+      res.status(400).json({ error: "Invalid client data" });
     }
-    res.json(client);
   });
 
   app.delete("/api/clients/:id", async (req, res) => {
