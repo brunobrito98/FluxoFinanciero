@@ -1,37 +1,47 @@
-import { type User, type InsertUser } from "@shared/schema";
+import { type Client, type InsertClient } from "@shared/schema";
 import { randomUUID } from "crypto";
 
-// modify the interface with any CRUD methods
-// you might need
-
 export interface IStorage {
-  getUser(id: string): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
+  getClient(id: string): Promise<Client | undefined>;
+  getAllClients(): Promise<Client[]>;
+  createClient(client: InsertClient): Promise<Client>;
+  updateClient(id: string, client: Partial<InsertClient>): Promise<Client | undefined>;
+  deleteClient(id: string): Promise<boolean>;
 }
 
 export class MemStorage implements IStorage {
-  private users: Map<string, User>;
+  private clients: Map<string, Client>;
 
   constructor() {
-    this.users = new Map();
+    this.clients = new Map();
   }
 
-  async getUser(id: string): Promise<User | undefined> {
-    return this.users.get(id);
+  async getClient(id: string): Promise<Client | undefined> {
+    return this.clients.get(id);
   }
 
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+  async getAllClients(): Promise<Client[]> {
+    return Array.from(this.clients.values());
   }
 
-  async createUser(insertUser: InsertUser): Promise<User> {
+  async createClient(insertClient: InsertClient): Promise<Client> {
     const id = randomUUID();
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
-    return user;
+    const client: Client = { ...insertClient, id };
+    this.clients.set(id, client);
+    return client;
+  }
+
+  async updateClient(id: string, updateData: Partial<InsertClient>): Promise<Client | undefined> {
+    const existing = this.clients.get(id);
+    if (!existing) return undefined;
+    
+    const updated: Client = { ...existing, ...updateData };
+    this.clients.set(id, updated);
+    return updated;
+  }
+
+  async deleteClient(id: string): Promise<boolean> {
+    return this.clients.delete(id);
   }
 }
 
