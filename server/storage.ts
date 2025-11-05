@@ -1,5 +1,6 @@
-import { type Client, type InsertClient } from "@shared/schema";
-import { randomUUID } from "crypto";
+import { clients, type Client, type InsertClient } from "@shared/schema";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 
 export interface IStorage {
   getClient(id: string): Promise<Client | undefined>;
@@ -9,40 +10,40 @@ export interface IStorage {
   deleteClient(id: string): Promise<boolean>;
 }
 
-export class MemStorage implements IStorage {
-  private clients: Map<string, Client>;
-
-  constructor() {
-    this.clients = new Map();
-  }
-
+export class DatabaseStorage implements IStorage {
   async getClient(id: string): Promise<Client | undefined> {
-    return this.clients.get(id);
+    const [client] = await db.select().from(clients).where(eq(clients.id, id));
+    return client || undefined;
   }
 
   async getAllClients(): Promise<Client[]> {
-    return Array.from(this.clients.values());
+    return await db.select().from(clients);
   }
 
   async createClient(insertClient: InsertClient): Promise<Client> {
-    const id = randomUUID();
-    const client: Client = { ...insertClient, id };
-    this.clients.set(id, client);
+    const [client] = await db
+      .insert(clients)
+      .values(insertClient)
+      .returning();
     return client;
   }
 
   async updateClient(id: string, updateData: Partial<InsertClient>): Promise<Client | undefined> {
-    const existing = this.clients.get(id);
-    if (!existing) return undefined;
-    
-    const updated: Client = { ...existing, ...updateData };
-    this.clients.set(id, updated);
-    return updated;
+    const [updated] = await db
+      .update(clients)
+      .set(updateData)
+      .where(eq(clients.id, id))
+      .returning();
+    return updated || undefined;
   }
 
   async deleteClient(id: string): Promise<boolean> {
-    return this.clients.delete(id);
+    const result = await db
+      .delete(clients)
+      .where(eq(clients.id, id))
+      .returning();
+    return result.length > 0;
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
